@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flappy @YouHapp_Robot (Slow)</title>
+    <title>Flappy YouHapp</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@700&display=swap');
 
@@ -39,16 +39,17 @@
         /* --- GÜNCELLENEN WATERMARK --- */
         .watermark {
             position: absolute;
-            top: 5px; /* En yukarıya yapışık */
+            top: 5px;
             width: 100%;
             text-align: center;
             font-family: 'Orbitron', sans-serif;
-            font-size: 10px; /* Çok küçük */
-            color: rgba(255, 255, 255, 0.15); /* Çok silik/az görünür */
-            letter-spacing: 2px;
+            font-size: 12px; /* Biraz daha okunur yaptık */
+            color: rgba(255, 255, 255, 0.3); /* Hafif görünür */
+            letter-spacing: 1px;
             pointer-events: none;
             z-index: 100;
             text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         /* UI Katmanları */
@@ -132,7 +133,7 @@
 <body>
 
     <div id="game-container">
-        <div class="watermark">SALAMUHAMMEDOW</div>
+        <div class="watermark">@YouHapp_Robot</div>
 
         <div id="score-display">0</div>
         <canvas id="gameCanvas"></canvas>
@@ -190,7 +191,7 @@
             const now = audioCtx.currentTime;
 
             if (type === 'flap') {
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(200, now); // Daha yumuşak ses
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(200, now);
                 osc.frequency.linearRampToValueAtTime(80, now + 0.1);
                 gain.gain.setValueAtTime(0.15, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
                 osc.start(now); osc.stop(now + 0.1);
@@ -211,7 +212,7 @@
                 ctx.fillStyle = "#70c5ce"; ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
                 for(let i=0; i<5; i++) {
-                    let x = ((frames * 0.3) + (i * 100)) % (canvas.width + 100) - 50; // Yavaşlatıldı
+                    let x = ((frames * 0.3) + (i * 100)) % (canvas.width + 100) - 50;
                     let y = canvas.height - 150 - (i * 30);
                     ctx.beginPath();
                     ctx.arc(x, y, 30 * scale, 0, Math.PI * 2);
@@ -223,7 +224,7 @@
                 for(let i=0; i<10; i++) {
                     let h = 50 + Math.sin(i)*30;
                     let w = canvas.width / 10;
-                    let x = i * w - (frames * 0.1) % w; // Yavaşlatıldı
+                    let x = i * w - (frames * 0.1) % w;
                     ctx.fillRect(x, canvas.height - 110 * scale - h*scale, w + 2, h*scale);
                 }
             }
@@ -237,7 +238,7 @@
                 ctx.fillStyle = "#73bf2e";
                 ctx.fillRect(0, canvas.height - this.h * scale, canvas.width, 12 * scale);
                 ctx.strokeStyle = "#d0c874"; ctx.lineWidth = 2; ctx.beginPath();
-                let offset = (frames * 1.5) % (20 * scale); // Yavaşlatıldı
+                let offset = (frames * 1.5) % (20 * scale);
                 for (let i = -20; i < canvas.width; i += 20 * scale) {
                     ctx.moveTo(i - offset, canvas.height - this.h * scale + 12*scale);
                     ctx.lineTo(i - 10*scale - offset, canvas.height);
@@ -250,10 +251,7 @@
 
         const bird = {
             x: 50, y: 150, w: 34, h: 24, radius: 12,
-            speed: 0, 
-            gravity: 0.18, // YAVAŞLATILDI (Eskisi 0.25)
-            jump: 3.8,     // YAVAŞLATILDI (Eskisi 4.6)
-            rotation: 0,
+            speed: 0, gravity: 0.18, jump: 3.8, rotation: 0,
             draw: function() {
                 let r = this.radius * scale;
                 let birdX = this.x * scale; let birdY = this.y;
@@ -287,9 +285,7 @@
         }
 
         const pipes = {
-            position: [], w: 52, h: 400, 
-            gap: 140, // ARALIK GENİŞLETİLDİ (Eskisi 120) - Geçmek daha kolay
-            dx: 1.5,  // HIZ AZALTILDI (Eskisi 2) - Oyun daha yavaş
+            position: [], w: 52, h: 400, gap: 140, dx: 1.5,
             draw: function() {
                 for(let i=0; i<this.position.length; i++) {
                     let p = this.position[i];
@@ -304,7 +300,6 @@
                 }
             },
             update: function() {
-                // Boru çıkma sıklığı azaltıldı (120 -> 160)
                 if(frames % 160 == 0) {
                     this.position.push({
                         x: canvas.width,
